@@ -1,7 +1,7 @@
 (ns clojure.http.client
-  (:use [clojure.contrib.java-utils :only [as-str]]
-        [clojure.contrib.duck-streams :only [read-lines spit]]
-        [clojure.contrib.str-utils :only [str-join]]
+  (:use [clojure.contrib.string :only [as-str]]
+        [clojure.contrib.io :only [read-lines spit]]
+        [clojure.contrib.string :only [join]]
         [clojure.contrib.base64 :as base64])
   (:import (java.net URL
                      URLEncoder
@@ -30,7 +30,7 @@
 representation of argument, either a string or map."
   [arg]
   (if (map? arg)
-    (str-join \& (map #(str-join \= (map url-encode %)) arg))
+    (join \& (map #(join \= (map url-encode %)) arg))
     (URLEncoder/encode (as-str arg) "UTF-8")))
 
 (defn- send-body
@@ -97,7 +97,7 @@ by a server."
   "Returns a string suitable for sending to the server in the
 \"Cookie\" header when given a clojure map of cookies."
   [cookie-map]
-  (str-join "; " (map (fn [cookie]
+  (join "; " (map (fn [cookie]
                         (str #^String (as-str (key cookie))
                              "="
                              #^String (as-str (val cookie))))

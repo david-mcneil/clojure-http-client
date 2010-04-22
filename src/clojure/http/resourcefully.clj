@@ -17,7 +17,7 @@
 ;;
 
 (ns clojure.http.resourcefully
-  (:use [clojure.contrib.str-utils :only [str-join]])
+  (:use [clojure.contrib.string :only [join]])
   (:use [clojure.http.client :as client])
   (:refer-clojure :exclude [get]))
 
@@ -35,7 +35,7 @@
   (str "Problem with " (:url response) ": "
        (:code response) " "
        (:msg response) "\n"
-       (str-join "\n" (:body-seq response))))
+       (join "\n" (:body-seq response))))
 
 (defmacro define-method
   [method]
